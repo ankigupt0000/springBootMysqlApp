@@ -6,7 +6,174 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+		<script>
+		var selecteElems = [];
+		var barchart = null;
+		var piechart = null;
+		function getSelectedElement(){
+			studentsElem = document.getElementById("sales");
+			tableArr = [];
+			trs = studentsElem.getElementsByTagName("tr");
+			for (var i = 0; i < trs.length; i++) {
+				arrRow = []
+				tds = trs[i].getElementsByTagName("td");
+				if(trs[i].className == "selected"){
+					for(var j = 0; j < tds.length; j++) {
+						arrRow.push(tds[j].innerText);
+					}
+					tableArr.push(arrRow);
+				}
+			}
+			return tableArr;
+		}
+		function drawBarChart(){
+			if(barchart)
+				barchart.destroy();
+			document.getElementById('myBarChart').innerHTML="";
+			var ctx = document.getElementById('myBarChart').getContext('2d');
+			var sale_name = [];
+			var profit_per_item = [];
+			
+			for( var i = 0; i < selecteElems.length; i++)
+			{
+				sale_name.push(selecteElems[i][0]);
+				profit_per_item.push(selecteElems[i][7]);
+			}
+				
+			var myChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: sale_name,
+					datasets: [{
+						label: "",
+						data: profit_per_item,
+						backgroundColor: [
+							'rgba(107, 9, 13)',
+							'rgba(16, 2, 43)',
+							'rgba(6, 120, 72)',
+							'rgba(130, 102, 3)',
+							'rgba(11, 73, 92)'
+						]
+					}]
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'Product Profit Per Item'
+					},
+					label: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+							ticks: {
+								callback: function(value, index, values) {
+									return '$' + value + '.00';
+								},
+								beginAtZero: true
+							}
+						}]
+					},
+					showTooltips: false
+				}
+			});
+			return myChart;
+		}
+		function drawPiChart()
+		{
+			if(piechart)
+				piechart.destroy();
+			var ctx = document.getElementById('myPiChart').getContext('2d');
+			var sale_name = [];
+			var total_income = [];
+			
+			for( var i = 0; i < selecteElems.length; i++)
+			{
+				sale_name.push(selecteElems[i][0]);
+				total_income.push(selecteElems[i][9]);
+			}
+			
+			var myChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: sale_name,
+					datasets: [{
+						label: '# of Votes',
+						data: total_income,
+						backgroundColor: [
+							'rgba(107, 9, 13)',
+							'rgba(16, 2, 43)',
+							'rgba(6, 120, 72)',
+							'rgba(130, 102, 3)',
+							'rgba(11, 73, 92)'
+						]
+					}]
+				},
+				options: {
+					title: {
+						display: true,
+						text: '% Income Per Product'
+					},
+					showTooltips: false
+				}
+			});
+			return myChart;
+		}
+		</script>
+		<script>
+			var lastSelectedRow;
+			var trs = document.getElementsByTagName('tr');
+
+			// disable text selection
+			document.onselectstart = function() {
+				return false;
+			}
+
+			function RowClick(currenttr, lock) {
+				if (window.event.ctrlKey) {
+					toggleRow(currenttr);
+				}
+
+				if (window.event.button === 0) {
+					if (!window.event.ctrlKey && !window.event.shiftKey) {
+						clearAll();
+						toggleRow(currenttr);
+					}
+
+					if (window.event.shiftKey) {
+						selectRowsBetweenIndexes([lastSelectedRow.rowIndex+1, currenttr.rowIndex+1])
+					}
+				}
+				selecteElems=getSelectedElement();
+				barchart=drawBarChart();
+				piechart=drawPiChart();
+			}
+
+			function toggleRow(row) {
+				row.className = row.className == 'selected' ? '' : 'selected';
+				lastSelectedRow = row;
+			}
+
+			function selectRowsBetweenIndexes(indexes) {
+				indexes.sort(function(a, b) {
+					return a - b;
+				});
+
+				for (var i = indexes[0]; i <= indexes[1]; i++) {
+					trs[i-1].className = 'selected';
+				}
+			}
+
+			function clearAll() {
+				for (var i = 0; i < trs.length; i++) {
+					trs[i].className = '';
+				}
+			}
+		</script>
 		<style>
+			.selected {
+				background: lightBlue
+			}
 			.currSign:before { 
 				content: '$'; 
 			}
@@ -33,7 +200,7 @@
     <body>
 		<h1 style="color:gray">Online Sales Tracker</h1>
 	    <!-- Bar Chart Start -->
-		<table>
+		<table id = "charts">
 		<tr>
 		<td>
 		<div class="chart-container" style="height:50vh; width:40vw">
@@ -47,94 +214,6 @@
 		</td>
 		</tr>
 		</table>
-		<script>
-		var ctx = document.getElementById('myBarChart').getContext('2d');
-		var sale_name = [
-		<#list sales as sale>
-			'${sale.name}',
-		</#list>
-		"" ];
-		sale_name.pop();
-		
-		var profit_per_item = [
-		<#list sales as sale>
-			${sale.profitperitem},
-		</#list>
-		""];
-		profit_per_item.pop();
-		
-		var myChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: sale_name,
-				datasets: [{
-					label: "",
-					data: profit_per_item,
-					backgroundColor: [
-						'rgba(107, 9, 13)',
-						'rgba(16, 2, 43)',
-						'rgba(6, 120, 72)',
-						'rgba(130, 102, 3)',
-						'rgba(11, 73, 92)'
-					]
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: 'Product Profit Per Item'
-				},
-				label: {
-					display: false
-				},
-				scales: {
-					yAxes: [{
-						ticks: {
-							callback: function(value, index, values) {
-								return '$' + value + '.00';
-							}
-						}
-					}]
-				}
-			}
-		});
-		</script>
-		<!-- Bar Chart End -->
-		<!-- Pie Chart Start -->
-		<script>
-		var ctx = document.getElementById('myPiChart').getContext('2d');
-		var total_income = [
-		<#list sales as sale>
-			${sale.totalincome},
-		</#list>
-		""];
-		total_income.pop();
-		
-		var myChart = new Chart(ctx, {
-			type: 'pie',
-			data: {
-				labels: sale_name,
-				datasets: [{
-					label: '# of Votes',
-					data: total_income,
-					backgroundColor: [
-						'rgba(107, 9, 13)',
-						'rgba(16, 2, 43)',
-						'rgba(6, 120, 72)',
-						'rgba(130, 102, 3)',
-						'rgba(11, 73, 92)'
-					]
-				}]
-			},
-			options: {
-				title: {
-					display: true,
-					text: '% Income Per Product'
-				}
-			}
-		});
-		</script>
-		<!-- Pie Chart End -->
         <table id="sales">
             <tr>
                 <th>Name</th>
@@ -150,7 +229,7 @@
             </tr>
 
             <#list sales as sale>
-                <tr>
+                <tr onmousedown="RowClick(this,false);" class="selected">
                     <td>${sale.name}</td>
 					<td class="dollars">${sale.costperitem}</td>
 					<td class="dollars">${sale.percentmarkup}</td>
@@ -173,5 +252,10 @@
 				x[i].classList.add("currSign"); 
 			} 
 		</script> 
+		<script>
+		selecteElems=getSelectedElement();
+		barchart=drawBarChart();
+		piechart=drawPiChart();
+		</script>
     </body>
 </html>
