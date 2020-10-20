@@ -14,7 +14,7 @@ public class MyController {
     @Autowired
     private ICityService cityService;
 
-    @GetMapping("/cities")
+    @GetMapping("/sales")
     public String findCities(Model model) {
 
         var cities = (List<City>) cityService.findAll();
