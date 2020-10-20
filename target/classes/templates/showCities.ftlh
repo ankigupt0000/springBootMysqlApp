@@ -6,20 +6,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         </head>
     <body>
-        <h2>List of cities</h2>
-
-        <table>
+         <table>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
-                <th>Population</th>
+				<th>Cost per Item </th>
+				<th>Percent Markup </th>
+				<th>Total Sold</th>
+				<th>Total Revenue</th>
+				<th>Shipping Charge/Item</th>
+				<th>Shipping Cost/Item</th>
+				<th>Profit per Item (incl. shipping)</th>
+				<th>Returns</th>
+				<th>Total Income<th>
             </tr>
 
             <#list cities as city>
                 <tr>
-                    <td>${city.id}</td>
                     <td>${city.name}</td>
-                    <td>${city.population}</td>
+					<td>${city.costperitem}</td>
+					<td>${city.percentmarkup}</td>
+					<td>${city.totalsold}</td>
+					<td>${city.totalrevenue}</td>
+					<td>${city.shipcharge}</td>
+					<td>${city.shipcost}</td>
+					<td>${city.profitperitem}</td>
+					<td>${city.returns}</td>
+					<td>${city.totalincome}</td>
                 </tr>
             </#list>
         </table>
