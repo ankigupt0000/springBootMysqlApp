@@ -1,7 +1,7 @@
 package com.zetcode.controller;
 
-import com.zetcode.model.City;
-import com.zetcode.service.ICityService;
+import com.zetcode.model.Sale;
+import com.zetcode.service.ISaleService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class MyController {
 
     @Autowired
-    private ICityService cityService;
+    private ISaleService saleService;
 
     @GetMapping("/sales")
-    public String findCities(Model model) {
+    public String findSales(Model model) {
 
-        var cities = (List<City>) cityService.findAll();
+        var sales = (List<Sale>) saleService.findAll();
 
-        model.addAttribute("cities", cities);
+        model.addAttribute("sales", sales);
 
-        return "showCities";
+        return "showSales";
     }
 }

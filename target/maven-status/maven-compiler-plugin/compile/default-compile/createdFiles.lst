@@ -1,6 +1,10 @@
+com\zetcode\repository\SaleRepository.class
 com\zetcode\service\CityService.class
-com\zetcode\controller\MyController.class
-com\zetcode\Application.class
 com\zetcode\repository\CityRepository.class
 com\zetcode\model\City.class
+com\zetcode\model\Sale.class
+com\zetcode\controller\MyController.class
+com\zetcode\Application.class
+com\zetcode\service\ISaleService.class
 com\zetcode\service\ICityService.class
+com\zetcode\service\SaleService.class

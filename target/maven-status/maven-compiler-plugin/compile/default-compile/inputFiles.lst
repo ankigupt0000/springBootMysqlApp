@@ -1,6 +1,10 @@
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\service\CityService.java
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\controller\MyController.java
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\repository\CityRepository.java
+C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\service\ISaleService.java
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\service\ICityService.java
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\Application.java
+C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\service\SaleService.java
+C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\repository\SaleRepository.java
+C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\model\Sale.java
 C:\Users\Ankit\Desktop\SpringBoot\src\main\java\com\zetcode\model\City.java
