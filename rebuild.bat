@@ -1,4 +1,2 @@
-del /s target
-mvn spring-boot:stop
-
-mvn sprint-boot:start
+del /s /f /q target
+mvn spring-boot:run

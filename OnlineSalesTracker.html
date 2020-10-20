@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<!-- saved from url=(0027)http://localhost:8080/sales -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Online Sales Tracker</title>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="./Online Sales Tracker_files/bootstrap.min.css">
+		<script src="./Online Sales Tracker_files/Chart.min.js.download"></script>
+		<style>
+			.currSign:before { 
+				content: '$'; 
+			}
+			table#sales{
+					background-color: #f2f2f2;
+			}
+			table#sales td{
+				text-align: right;
+				width:10%;
+			}
+			table#sales tr{
+				border-bottom: 1px solid; 
+				border-top: 1px solid; 
+			}
+			table#sales th {
+				min-width:10%;
+				color: black;
+				border-left: 1px solid white;
+				border-right: 1px solid white;
+				text-align: left;
+			}
+		</style>
+    <style type="text/css">/* Chart.js */
+@keyframes chartjs-render-animation{from{opacity:.99}to{opacity:1}}.chartjs-render-monitor{animation:chartjs-render-animation 1ms}.chartjs-size-monitor,.chartjs-size-monitor-expand,.chartjs-size-monitor-shrink{position:absolute;direction:ltr;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1}.chartjs-size-monitor-expand>div{position:absolute;width:1000000px;height:1000000px;left:0;top:0}.chartjs-size-monitor-shrink>div{position:absolute;width:200%;height:200%;left:0;top:0}</style></head>
+    <body>
+		<h1 style="color:gray">Online Sales Tracker</h1>
+	    <!-- Bar Chart Start -->
+		<table>
+		<tbody><tr>
+		<td>
+		<div class="chart-container" style="height:50vh; width:40vw"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		<canvas id="myBarChart" width="546" height="273" class="chartjs-render-monitor" style="display: block; width: 546px; height: 273px;"></canvas>
+		</div>
+		</td>
+		<td>
+		<div class="chart-container" style="height:50vh; width:40vw"><div class="chartjs-size-monitor"><div class="chartjs-size-monitor-expand"><div class=""></div></div><div class="chartjs-size-monitor-shrink"><div class=""></div></div></div>
+		<canvas id="myPiChart" width="546" height="273" class="chartjs-render-monitor" style="display: block; width: 546px; height: 273px;"></canvas>
+		</div>
+		</td>
+		</tr>
+		</tbody></table>
+		<script>
+		var ctx = document.getElementById('myBarChart').getContext('2d');
+		var sale_name = [
+					'Item 1',
+			'Item 2',
+			'Item 3',
+			'Item 4',
+			'Item 5',
+		"" ];
+		sale_name.pop();
+		
+		var profit_per_item = [
+			14.25,
+			12.88,
+			12.2,
+			6,
+			5.35,
+		""];
+		profit_per_item.pop();
+		
+		var myChart = new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: sale_name,
+				datasets: [{
+					label: "",
+					data: profit_per_item,
+					backgroundColor: [
+						'rgba(107, 9, 13)',
+						'rgba(16, 2, 43)',
+						'rgba(6, 120, 72)',
+						'rgba(130, 102, 3)',
+						'rgba(11, 73, 92)'
+					]
+				}]
+			},
+			options: {
+				title: {
+					display: true,
+					text: 'Product Profit Per Item'
+				},
+				label: {
+					display: false
+				},
+				scales: {
+					yAxes: [{
+						ticks: {
+							callback: function(value, index, values) {
+								return '$' + value + '.00';
+							}
+						}
+					}]
+				}
+			}
+		});
+		</script>
+		<!-- Bar Chart End -->
+		<!-- Pie Chart Start -->
+		<script>
+		var ctx = document.getElementById('myPiChart').getContext('2d');
+		var total_income = [
+			196.75,
+			224.63,
+			244,
+			300,
+			218.4,
+		""];
+		total_income.pop();
+		
+		var myChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+				labels: sale_name,
+				datasets: [{
+					label: '# of Votes',
+					data: total_income,
+					backgroundColor: [
+						'rgba(107, 9, 13)',
+						'rgba(16, 2, 43)',
+						'rgba(6, 120, 72)',
+						'rgba(130, 102, 3)',
+						'rgba(11, 73, 92)'
+					]
+				}]
+			},
+			options: {
+				title: {
+					display: true,
+					text: '% Income Per Product'
+				}
+			}
+		});
+		</script>
+		<!-- Pie Chart End -->
+        <table id="sales">
+            <tbody><tr>
+                <th>Name</th>
+				<th>Cost per Item </th>
+				<th>Percent Markup </th>
+				<th>Total Sold</th>
+				<th>Total Revenue</th>
+				<th>Shipping Charge/Item</th>
+				<th>Shipping Cost/Item</th>
+				<th>Profit per Item (incl. shipping)</th>
+				<th>Returns</th>
+				<th>Total Income</th><th>
+            </th></tr>
+
+                <tr>
+                    <td>Item 1</td>
+					<td class="dollars currSign">10.00</td>
+					<td class="dollars currSign">1.00</td>
+					<td>15</td>
+					<td class="dollars currSign">300.00</td>
+					<td class="dollars currSign">10.00</td>
+					<td class="dollars currSign">5.75</td>
+					<td class="dollars currSign">14.25</td>
+					<td>2</td>
+					<td class="dollars currSign">196.75</td>
+                </tr>
+                <tr>
+                    <td>Item 2</td>
+					<td class="dollars currSign">11.50</td>
+					<td class="dollars currSign">0.75</td>
+					<td>18</td>
+					<td class="dollars currSign">362.25</td>
+					<td class="dollars currSign">10.00</td>
+					<td class="dollars currSign">5.75</td>
+					<td class="dollars currSign">12.88</td>
+					<td>1</td>
+					<td class="dollars currSign">224.63</td>
+                </tr>
+                <tr>
+                    <td>Item 3</td>
+					<td class="dollars currSign">13.00</td>
+					<td class="dollars currSign">0.65</td>
+					<td>20</td>
+					<td class="dollars currSign">429.00</td>
+					<td class="dollars currSign">10.00</td>
+					<td class="dollars currSign">6.25</td>
+					<td class="dollars currSign">12.20</td>
+					<td>0</td>
+					<td class="dollars currSign">244.00</td>
+                </tr>
+                <tr>
+                    <td>Item 4</td>
+					<td class="dollars currSign">5.00</td>
+					<td class="dollars currSign">0.90</td>
+					<td>50</td>
+					<td class="dollars currSign">475.00</td>
+					<td class="dollars currSign">5.00</td>
+					<td class="dollars currSign">3.50</td>
+					<td class="dollars currSign">6.00</td>
+					<td>0</td>
+					<td class="dollars currSign">300.00</td>
+                </tr>
+                <tr>
+                    <td>Item 5</td>
+					<td class="dollars currSign">4.00</td>
+					<td class="dollars currSign">0.90</td>
+					<td>42</td>
+					<td class="dollars currSign">319.20</td>
+					<td class="dollars currSign">5.00</td>
+					<td class="dollars currSign">3.25</td>
+					<td class="dollars currSign">5.35</td>
+					<td>3</td>
+					<td class="dollars currSign">218.40</td>
+                </tr>
+        </tbody></table>
+		<script> 
+			let x = document.querySelectorAll(".dollars"); 
+			for (let i = 0, len = x.length; i < len; i++) { 
+				let num = Number(x[i].innerHTML) 
+						  .toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+				x[i].innerHTML = num; 
+				x[i].classList.add("currSign"); 
+			} 
+		</script> 
+    
+</body></html>
