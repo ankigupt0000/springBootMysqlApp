@@ -221,20 +221,16 @@
     <body>
 		<h1 style="color:gray">Online Sales Tracker</h1>
 	    <!-- Bar Chart Start -->
-		<table id = "charts">
-		<tr>
-		<td>
-		<div class="chart-container" style="height:50vh; width:40vw">
-		<canvas id="myBarChart"></canvas>
+		<div class="container">
+			<div class="row">
+				<div class="col" style="height:50vh; width:40vw">
+					<canvas id="myBarChart"></canvas>
+				</div>
+				<div class="col" style="height:50vh; width:40vw">
+					<canvas id="myPiChart"></canvas>
+				</div>
+			</div>
 		</div>
-		</td>
-		<td>
-		<div class="chart-container" style="height:50vh; width:40vw">
-		<canvas id="myPiChart"></canvas>
-		</div>
-		</td>
-		</tr>
-		</table>
         <table id="sales">
             <tr>
                 <th>Name</th>
