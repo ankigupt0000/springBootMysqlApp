@@ -6,11 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
-		<script>
+		<script> 
+
 		var selecteElems = [];
 		var barchart = null;
 		var piechart = null;
 		function getSelectedElement(){
+			ret_item_total = 0;
+			total = 0;
 			studentsElem = document.getElementById("sales");
 			tableArr = [];
 			trs = studentsElem.getElementsByTagName("tr");
@@ -20,10 +23,17 @@
 				if(trs[i].className == "selected"){
 					for(var j = 0; j < tds.length; j++) {
 						arrRow.push(tds[j].innerText);
+						if(j==9)
+							total += parseFloat(tds[j].innerText);
+						if(j==8)
+							ret_item_total += parseFloat(tds[j].innerText);
 					}
 					tableArr.push(arrRow);
 				}
 			}
+			document.getElementById('ret_total').innerText=ret_item_total;
+			document.getElementById('total').innerText=total;
+			formatNumbers();
 			return tableArr;
 		}
 		function drawBarChart(){
@@ -169,6 +179,17 @@
 					trs[i].className = '';
 				}
 			}
+			
+		function formatNumbers()
+		{
+			let x = document.querySelectorAll(".dollars"); 
+			for (let i = 0, len = x.length; i < len; i++) { 
+				let num = Number(x[i].innerHTML) 
+						  .toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}); 
+				x[i].innerHTML = num; 
+				x[i].classList.add("currSign"); 
+			} 
+		}
 		</script>
 		<style>
 			.selected {
@@ -242,17 +263,21 @@
 					<td class="dollars">${sale.totalincome}</td>
                 </tr>
             </#list>
+			<tr>
+				<td class="font-weight-bold">Total</td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td id="ret_total" class="font-weight-bold"></td>
+				<td id="total" class="dollars font-weight-bold"></td>
+			</tr>
         </table>
-		<script> 
-			let x = document.querySelectorAll(".dollars"); 
-			for (let i = 0, len = x.length; i < len; i++) { 
-				let num = Number(x[i].innerHTML) 
-						  .toLocaleString('en-IN',{minimumFractionDigits: 2, maximumFractionDigits: 2}); 
-				x[i].innerHTML = num; 
-				x[i].classList.add("currSign"); 
-			} 
-		</script> 
 		<script>
+		formatNumbers();
 		selecteElems=getSelectedElement();
 		barchart=drawBarChart();
 		piechart=drawPiChart();
