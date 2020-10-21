@@ -17,7 +17,7 @@ public class MyController {
     @GetMapping("/sales")
     public String findSales(Model model) {
 
-        var sales = (List<Sale>) saleService.findAll();
+        List<Sale> sales = (List<Sale>) saleService.findAll();
 
         model.addAttribute("sales", sales);
 
