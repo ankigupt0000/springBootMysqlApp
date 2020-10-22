@@ -1,2 +1,1 @@
-del /s /f /q target
-mvn spring-boot:run
+mvn clean spring-boot:run
